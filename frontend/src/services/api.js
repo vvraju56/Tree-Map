@@ -8,7 +8,7 @@ const api = axios.create({
 // Request interceptor - add auth token
 api.interceptors.request.use(
   (config) => {
-    const stored = JSON.parse(localStorage.getItem('tree-map-auth') || localStorage.getItem('kinmap-auth') || '{}');
+    const stored = JSON.parse(localStorage.getItem('tree-map-auth') || '{}');
     const token = stored?.state?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +24,6 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('tree-map-auth');
-      localStorage.removeItem('kinmap-auth');
       window.location.href = '/login';
     }
     return Promise.reject(error);
